@@ -88,13 +88,25 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
     /**
      * Factory for constructing DevByteViewModel with parameter
      */
+//    class Factory(val app: Application) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+//            if (modelClass.isAssignableFrom(DevByteViewModel::class.java)) {
+//                @Suppress("UNCHECKED_CAST")
+//                return DevByteViewModel(app) as T
+//            }
+//            throw IllegalArgumentException("Unable to construct viewmodel")
+//        }
+//    }
+
     class Factory(val app: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(DevByteViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return DevByteViewModel(app) as T
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return when {
+                modelClass.isAssignableFrom(DevByteViewModel::class.java) -> {
+                    @Suppress("UNCHECKED_CAST")
+                    DevByteViewModel(app) as T
+                }
+                else -> throw IllegalArgumentException("Unable to construct viewmodel")
             }
-            throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
 }
